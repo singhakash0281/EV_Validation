@@ -1,0 +1,23 @@
+#include "accelerator.h"
+#include "hal_sim.h"
+#include "validation.h"
+#include "fault_manager.h"
+
+static float accel_percent = 0;
+
+void Accelerator_Update(void)
+{
+    uint16_t adc = HAL_GetAcceleratorADC();
+
+    accel_percent = (adc / 4095.0f) * 100.0f;
+
+    if (!Validate_Accelerator(accel_percent))
+    {
+        Fault_Set(FAULT_ACCELERATOR);
+    }
+}
+
+float Accelerator_GetPercent(void)
+{
+    return accel_percent;
+}
