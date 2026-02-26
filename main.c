@@ -1,17 +1,27 @@
-#include "Sensor_Proc.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
-int main()
+#include "sensor_manager.h"
+#include "vehicle.h"
+#include "fault_manager.h"
+
+int main(void)
 {
-    SensorData_t sensorData;
+    srand(time(NULL));
 
-    Sensor_Init();
-    Sensor_Read(&sensorData);
+    while (1)
+    {
+        SensorManager_Update();
+        Vehicle_Update();
 
-    printf("\n--- Sensor Data ---\n");
-    printf("WSS: %u\n", sensorData.WSS_Value);
-    printf("Accelerator: %u%%\n", sensorData.Acc_Pedal_Value);
-    printf("Brake: %u%%\n", sensorData.Brake_Pedal_Value);
+        printf("Speed: %.2f km/h | Direction: %d | Fault: %d\n",
+               Vehicle_GetSpeed(),
+               Vehicle_GetDirection(),
+               Fault_Get());
+
+        Fault_Clear();
+    }
 
     return 0;
 }

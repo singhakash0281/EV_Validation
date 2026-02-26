@@ -1,21 +1,23 @@
-#include "Brk_sensor.h"
-#include <stdio.h>
+#include "brake.h"
+#include "hal_sim.h"
+#include "validation.h"
+#include "fault_manager.h"
 
+static uint8_t brake_state = 0;
 
-void Sensor_Init(void)
+void Brake_Update(void)
 {
-   
-    printf("Sensors Initialized\n");
-}
+    uint8_t raw = HAL_GetBrakeGPIO();
 
-
-void Sensor_Read(SensorData_t *sensorData)
-{
-    if(sensorData != NULL)
+    if (!Validate_Brake(raw))
     {
-
-
-        printf("Enter Brake Pedal Value (0-100): ");
-        scanf("%hhu", &sensorData->Brake_Pedal_Value);
+        Fault_Set(FAULT_BRAKE);
+        return;
     }
+
+    brake_state = raw;
 }
+
+uint8_t Brake_GetState(void)
+{
+    return brake_stat

@@ -1,20 +1,25 @@
-#include "wheel_sensor.h"
-#include <stdio.h>
 
+#include "wheel_speed.h"
+#include "hal_sim.h"
+#include "validation.h"
+#include "fault_manager.h"
 
-void Sensor_Init(void)
+static float wheel_rpm = 0;
+
+void Wheel_Update(void)
 {
-   
-    printf("Sensors Initialized\n");
+    uint16_t pulse = HAL_GetWheelPulse();
+
+    if (!Validate_Pulse(pulse))
+    {
+        Fault_Set(FAULT_WHEEL);
+        return;
+    }
+
+    wheel_rpm = pulse * 0.5f;  // conversion example
 }
 
-
-void Sensor_Read(SensorData_t *sensorData)
+float Wheel_GetRPM(void)
 {
-    if(sensorData != NULL)
-    {
-        printf("Enter WSS Value: ");
-        scanf("%hu", &sensorData->WSS_Value);
-
-    }
+    return wheel_rpm;
 }

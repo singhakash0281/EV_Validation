@@ -1,22 +1,23 @@
-#include "Acc_sensor.h"
-#include <stdio.h>
+#include "accelerator.h"
+#include "hal_sim.h"
+#include "validation.h"
+#include "fault_manager.h"
 
+static float accel_percent = 0;
 
-void Sensor_Init(void)
+void Accelerator_Update(void)
 {
-   
-    printf("Sensors Initialized\n");
+    uint16_t adc = HAL_GetAcceleratorADC();
+
+    accel_percent = (adc / 4095.0f) * 100.0f;
+
+    if (!Validate_Accelerator(accel_percent))
+    {
+        Fault_Set(FAULT_ACCELERATOR);
+    }
 }
 
-
-void Sensor_Read(SensorData_t *sensorData)
+float Accelerator_GetPercent(void)
 {
-    if(sensorData != NULL)
-    {
-    
-
-        printf("Enter Accelerator Pedal Value (0-100): ");
-        scanf("%hhu", &sensorData->Acc_Pedal_Value);
-
-    }
+    return accel_percent;
 }

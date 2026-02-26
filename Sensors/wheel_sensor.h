@@ -1,18 +1,7 @@
-#ifndef SENSOR_PROC_H
-#define SENSOR_PROC_H
+#ifndef WHEEL_SPEED_H
+#define WHEEL_SPEED_H
 
-#include <stdint.h>
-
-
-typedef struct
-{
-    uint16_t WSS_Value;          // Wheel Speed Sensor value
-   
-} SensorData_t;
-
-
-void Sensor_Init(void);
-
-void Sensor_Read(SensorData_t *sensorData);
+void Wheel_Update(void);
+float Wheel_GetRPM(void);
 
 #endif
