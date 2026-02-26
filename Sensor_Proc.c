@@ -5,7 +5,7 @@
 void Sensor_Init(void)
 {
    
-    printf("Sensors Initialized\n");
+    printf("Sensors Initializ\n");
 }
 
 
