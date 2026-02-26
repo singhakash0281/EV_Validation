@@ -1,12 +1,7 @@
 #include <stdio.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <time.h>
-
-#ifdef _WIN32
-#include <windows.h>  // Sleep(ms)
-#else
-#include <unistd.h>   // usleep(us)
-#endif
 
 #include "sensor_manager.h"
 #include "vehicle.h"

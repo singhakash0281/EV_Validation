@@ -1,8 +1,7 @@
 #include "brake.h"
-#include "hal_sim.h"
+#include "./hal_sim.h"
 #include "validation.h"
 #include "fault_manager.h"
-
 
 static uint8_t brake_state = 0;
 
@@ -23,4 +22,3 @@ uint8_t Brake_GetState(void)
 {
     return brake_state;
 }
-

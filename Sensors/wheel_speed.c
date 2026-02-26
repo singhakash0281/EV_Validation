@@ -1,8 +1,16 @@
+<<<<<<< HEAD
 
 #include "wheel_speed.h"
 #include "hal_sim.h"
 #include "validation.h"
 #include "fault_manager.h"
+=======
+#include <stdint.h>
+#include "./wheel_speed.h"
+#include "./hal_sim.h"
+#include "./validation.h"
+#include "./fault_manager.h"
+>>>>>>> fork/second
 
 static float wheel_rpm = 0;
 
