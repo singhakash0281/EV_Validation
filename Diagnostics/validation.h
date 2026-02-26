@@ -3,8 +3,8 @@
 
 #include <stdint.h>
 
-int Validate_Pulse(uint16_t pulse);
-int Validate_Accelerator(float percent);
-int Validate_Brake(uint8_t brake);
+uint8_t Validate_Wheel(uint16_t pulse);
+uint8_t Validate_Accelerator(float percent);
+uint8_t Validate_Brake(uint8_t brake);
 
 #endif

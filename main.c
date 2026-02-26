@@ -1,49 +1,53 @@
 #include <stdio.h>
+#include <unistd.h>
 #include <stdint.h>
-#include <stdlib.h>
-#include <time.h>
-
+#include "hal_sim.h"
 #include "sensor_manager.h"
 #include "vehicle.h"
 #include "fault_manager.h"
 
-int main(void)
+static void PrintFaultDetails(uint8_t fault)
 {
-    srand(time(NULL));
+    if (fault & FAULT_WSS)
+        printf("Wheel Speed Sensor Fault\n");
 
-    const int iterations = 20;   // finite loop for testing
-    const int delay_ms = 500;    // 500 ms delay
+    if (fault & FAULT_ACC)
+        printf("Accelerator Fault\n");
 
-    for (int i = 0; i < iterations; i++)
+    if (fault & FAULT_BRAKE)
+        printf("Brake Fault\n");
+
+    if (fault & FAULT_TIMEOUT)
+        printf("Sensor Timeout Fault\n");
+}
+
+int main()
+{
+    static unsigned long alive_counter = 0;
+
+    while (1)
     {
+        alive_counter++;
+
+        HAL_UpdateInputs();
         SensorManager_Update();
         Vehicle_Update();
 
-        float speed = Vehicle_GetSpeed();
-        int dir = Vehicle_GetDirection();
-        Fault_t fault = Fault_Get();
+        uint8_t fault = Fault_Get();
 
-        // Print with fault highlighted in red
-        if (fault != FAULT_NONE)
-            printf("\033[0;31m"); // Red text
-        else
-            printf("\033[0;32m"); // Green text
+        printf("\n===== VEHICLE STATUS =====\n");
+        printf("Alive Counter: %lu\n", alive_counter);
+        printf("Speed: %.2f km/h\n", Vehicle_GetSpeed());
+        printf("Direction: %d\n", Vehicle_GetDirection());
+        printf("Fault Byte: 0x%02X\n", fault);
 
-        printf("Speed: %.2f km/h | Direction: %d | Fault: %d\n",
-               speed, dir, fault);
+        if (fault)
+            PrintFaultDetails(fault);
 
-        printf("\033[0m"); // Reset color
+        printf("\n");
 
-        Fault_Clear();
-
-        // Delay
-        #ifdef _WIN32
-        Sleep(delay_ms);
-        #else
-        usleep(delay_ms * 1000);
-        #endif
+        sleep(1);
     }
 
-    printf("Simulation finished.\n");
     return 0;
 }

@@ -3,8 +3,8 @@
 
 typedef enum
 {
-    VEH_STOPPED,
-    VEH_FORWARD
+    STANDSTILL = 0,
+    FORWARD
 } Direction_t;
 
 void Vehicle_Update(void);
