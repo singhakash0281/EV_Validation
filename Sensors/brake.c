@@ -3,6 +3,7 @@
 #include "validation.h"
 #include "fault_manager.h"
 
+
 static uint8_t brake_state = 0;
 
 void Brake_Update(void)
@@ -20,4 +21,6 @@ void Brake_Update(void)
 
 uint8_t Brake_GetState(void)
 {
-    return brake_stat
+    return brake_state;
+}
+

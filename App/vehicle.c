@@ -1,7 +1,7 @@
 #include "vehicle.h"
 #include "wheel_speed.h"
 #include "brake.h"
-
+#include <stdint.h>
 static float vehicle_speed = 0;
 static Direction_t direction = VEH_STOPPED;
 

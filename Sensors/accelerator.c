@@ -2,7 +2,7 @@
 #include "hal_sim.h"
 #include "validation.h"
 #include "fault_manager.h"
-
+#include <stdint.h>
 static float accel_percent = 0;
 
 void Accelerator_Update(void)

@@ -1,18 +1,24 @@
 #include "fault_manager.h"
 
-static Fault_t current_fault = FAULT_NONE;
+static FaultLevel_t level = FAULT_NONE;
 
-void Fault_Set(Fault_t fault)
+void Fault_SetWarning(void)
 {
-    current_fault = fault;
+    if (level != FAULT_CRITICAL)
+        level = FAULT_WARNING;
 }
 
-Fault_t Fault_Get(void)
+void Fault_SetCritical(void)
 {
-    return current_fault;
+    level = FAULT_CRITICAL;
+}
+
+FaultLevel_t Fault_GetLevel(void)
+{
+    return level;
 }
 
 void Fault_Clear(void)
 {
-    current_fault = FAULT_NONE;
+    level = FAULT_NONE;
 }
